@@ -1,0 +1,80 @@
+const Place = require("../models/place.model");
+const User = require("../models/user.model");
+
+// exports.createPlace = (req, res) => {
+//   console.log(req.body.description);
+
+//   Place.create(req.body)
+//     .then((place) => res.send(place))
+//     .catch((err) => res.status(400).send(err));
+// };
+exports.createPlace = async (req, res) => {
+  try {
+    const {
+      title,
+      types,
+      owner,
+      pricing,
+      images,
+      capacity,
+      description,
+      address,
+    } = req.body;
+    const user = await User.findById(owner);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    const place = new Place({
+      title,
+      types,
+      owner,
+      pricing,
+      images,
+      capacity,
+      description,
+      address,
+    });
+    await place.save();
+    user.places.push(place._id);
+    await user.save();
+    return res.status(201).json({ place });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Failed to create new place" });
+  }
+};
+
+exports.getPlaces = (req, res) => {
+  Place.find()
+    .populate("owner")
+    .then((places) =>
+      res.send(places).catch((err) => res.status(400).send(err))
+    );
+};
+
+// exports.getMyPlaces = (req, res) => {
+//   User.findById(req.userToken.id).populate('places').then(
+//     (user) => {
+
+//     }
+//   )
+// }
+
+// const Place = require('../models/place.model');
+
+// exports.createPlace = (req, res) => {
+//   // const newPlace = new Place({
+//   //   name: req.body.name
+//   // })
+//   Place.create(req.body).then(
+//     (place) =>
+//       res.send(place)
+//   )
+//     .catch(err => res.status(400).send(err));
+// }
+
+// exports.getPlaces = (req, res) => {
+//   Place.find().populate('owner').then(
+//     (places) => res.send(places)
+//     .catch(err => res.status(400).send(err)))
+// }
