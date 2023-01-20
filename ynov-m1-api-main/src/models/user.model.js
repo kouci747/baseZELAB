@@ -34,11 +34,11 @@ const userSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  typePlace: {
+  typeUser: {
     type: [String],
     enum: ['customer', 'owner'],
     default: ['customer'],
-    //required: true,
+    //comme ça, un user pourrait potentiellement avoir plusieurs valeurs par défaut, et potentiellement plusieurs type, puisqu'il peut etre propriétaire et locataire en meme temps
   },
 
   places: [
