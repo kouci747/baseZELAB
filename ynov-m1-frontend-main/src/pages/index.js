@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <main>
       <TitlePage title="Homepage" />
-      <Card title="Card" />
+      <Card title="" />
     </main>
   );
 }
