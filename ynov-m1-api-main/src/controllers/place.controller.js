@@ -8,6 +8,8 @@ const User = require('../models/user.model');
 //     .then((place) => res.send(place))
 //     .catch((err) => res.status(400).send(err));
 // };
+
+//le controlleur createPlace touche à DEUX MODELES : PLACE ET USER : Avant d'enregistrer dans PLACE, il vérifie une condition dans USER
 exports.createPlace = async (req, res) => {
   try {
     const {
@@ -22,17 +24,15 @@ exports.createPlace = async (req, res) => {
     } = req.body;
     const user = await User.findById(owner);
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: 'Utilisateur introuvable' });
     }
     //Avant de save dans place.model, on vérifie dans un autre model -user.model- que l'user est bien un propriétaire(OWNER)
     //sinon, impossible car on ne peut créer un logement qu'en étant un proprio
     if (!user.typeUser.includes('owner')) {
-      return res
-        .status(403)
-        .json({
-          error:
-            'L utilisateur n est pas OWNER/propriétaire, il ne peut donc pas créer de place',
-        });
+      return res.status(403).json({
+        error:
+          'L utilisateur n est pas OWNER/propriétaire, il ne peut donc pas créer de place',
+      });
     }
     const place = new Place({
       title,
@@ -50,7 +50,9 @@ exports.createPlace = async (req, res) => {
     return res.status(201).json({ place });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: 'Failed to create new place' });
+    return res
+      .status(500)
+      .json({ error: 'Echec de la création d une nouvelle Place' });
   }
 };
 
