@@ -51,7 +51,9 @@ exports.addRole = async (req, res) => {
   User.findByIdAndUpdate(
     req.params.id,
     { $addToSet: { typeUser: req.body.roleToAdd } },
+
     { new: true, upsert: true },
+
     (err, docs) => {
       if (!err) res.status(201).json(docs);
       else return res.status(400).jsos(err);
@@ -72,13 +74,25 @@ exports.removeRole = async (req, res) => {
   );
 };
 
-/*
- UserModel.findByIdAndUpdate(
-      req.params.id,
-      { $addToSet: { following: req.body.idToFollow } },
-      { new: true, upsert: true },
-      (err, docs) => {
-        if (!err) res.status(201).json(docs);
-        else return res.status(400).jsos(err);
-      }
-    );*/
+//le meme controlleur mais modifie aussi isOwner et le met à true
+// exports.addRole = async (req, res) => {
+//   try {
+//     const { roleToAdd } = req.body;
+//     let update = { $addToSet: { typeUser: roleToAdd } };
+//     if (roleToAdd === 'owner') {
+//       update = { $addToSet: { typeUser: roleToAdd }, $set: { isOwner: true } };
+//     }
+//     const user = await User.findByIdAndUpdate(
+//       req.params.id,
+//       update,
+//       { new: true, upsert: true }
+//     );
+//     if (!user) {
+//       return res.status(404).json({ error: 'User not found' });
+//     }
+//     return res.status(201).json(user);
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).json({ error: 'Failed to add role' });
+//   }
+// };

@@ -34,6 +34,7 @@ exports.createPlace = async (req, res) => {
           'L utilisateur n est pas OWNER/propriétaire, il ne peut donc pas créer de place',
       });
     }
+
     const place = new Place({
       title,
       types,

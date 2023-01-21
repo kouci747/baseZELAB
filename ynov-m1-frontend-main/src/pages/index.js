@@ -1,9 +1,11 @@
-import TitlePage from "../components/TitlePage";
+import TitlePage from '../components/TitlePage';
+import Card from '../components/Card';
 
 export default function Home() {
   return (
     <main>
-      <TitlePage title="Homepage"/>
+      <TitlePage title="Homepage" />
+      <Card title="Card" />
     </main>
-  )
+  );
 }
