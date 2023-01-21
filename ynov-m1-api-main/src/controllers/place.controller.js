@@ -1,5 +1,5 @@
-const Place = require("../models/place.model");
-const User = require("../models/user.model");
+const Place = require('../models/place.model');
+const User = require('../models/user.model');
 
 // exports.createPlace = (req, res) => {
 //   console.log(req.body.description);
@@ -22,7 +22,17 @@ exports.createPlace = async (req, res) => {
     } = req.body;
     const user = await User.findById(owner);
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: 'User not found' });
+    }
+    //Avant de save dans place.model, on vérifie dans un autre model -user.model- que l'user est bien un propriétaire(OWNER)
+    //sinon, impossible car on ne peut créer un logement qu'en étant un proprio
+    if (!user.typeUser.includes('owner')) {
+      return res
+        .status(403)
+        .json({
+          error:
+            'L utilisateur n est pas OWNER/propriétaire, il ne peut donc pas créer de place',
+        });
     }
     const place = new Place({
       title,
@@ -40,13 +50,13 @@ exports.createPlace = async (req, res) => {
     return res.status(201).json({ place });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: "Failed to create new place" });
+    return res.status(500).json({ error: 'Failed to create new place' });
   }
 };
 
 exports.getPlaces = (req, res) => {
   Place.find()
-    .populate("owner")
+    .populate('owner')
     .then((places) =>
       res.send(places).catch((err) => res.status(400).send(err))
     );

@@ -1,6 +1,6 @@
-const User = require("../models/user.model.js");
-const bcrypt = require("bcrypt");
-const { signJwt } = require("../helpers/signJwt.js");
+const User = require('../models/user.model.js');
+const bcrypt = require('bcrypt');
+const { signJwt } = require('../helpers/signJwt.js');
 
 exports.register = (req, res) => {
   const hashedPassword = bcrypt.hashSync(req.body.password, 10);
@@ -10,6 +10,7 @@ exports.register = (req, res) => {
     lastName: req.body.lastName,
     email: req.body.email,
     password: hashedPassword,
+    typeUser: req.body.typeUser,
   });
   newUser
     .save()
@@ -19,6 +20,7 @@ exports.register = (req, res) => {
           id: user._id,
           isAdmin: user.isAdmin,
           isOwner: user.isOwner,
+          typeUser: user.typeUser,
         },
         process.env.JWT_SECRET
       );
@@ -37,7 +39,7 @@ exports.login = (req, res) => {
     .then((user) => {
       if (!user) {
         return res.status(404).send({
-          message: "User not found",
+          message: 'User not found',
           auth: false,
         });
       }
@@ -47,7 +49,7 @@ exports.login = (req, res) => {
       );
       if (!isPasswordValid) {
         return res.status(401).send({
-          message: "password not valid",
+          message: 'password not valid',
           auth: false,
         });
       }
@@ -61,7 +63,7 @@ exports.login = (req, res) => {
 
       res.send({
         auth: true,
-        message: "User logged",
+        message: 'User logged',
         token: userToken,
       });
     })
