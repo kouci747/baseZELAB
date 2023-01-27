@@ -60,8 +60,9 @@ exports.createPlace = async (req, res) => {
 exports.getPlaces = (req, res) => {
   Place.find()
     .populate('owner')
-    .then((places) =>
-      res.send(places).catch((err) => res.status(400).send(err))
+    .then(
+      (places) => res.send(places)
+      //.catch((err) => res.status(400).send(err))
     );
 };
 
