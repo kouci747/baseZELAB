@@ -1,8 +1,8 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const typePlaceController = require("../controllers/typePlace.controller");
+const typePlaceController = require('../controllers/typePlace.controller');
 
-router.get("/", typePlaceController.getTypesPlace);
-router.post("/createTypePlace", typePlaceController.createTypePlace);
+router.get('/getTypesPlaces', typePlaceController.getTypesPlace);
+router.post('/createTypePlace', typePlaceController.createTypePlace);
 
 module.exports = router;

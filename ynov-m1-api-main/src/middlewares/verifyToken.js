@@ -6,16 +6,16 @@ function verifyToken(req, res, next) {
     return res.status(403).send({
       auth: false,
       token: null,
-      message:"Missing token"
-    })
+      message: 'Missing token',
+    });
   }
   jwt.verify(token, process.env.JWT_SECRET, function (error, jwtDecoded) {
     if (error) {
       return res.status(401).send({
         auth: false,
         token: null,
-        message: "non authorized"
-      })
+        message: 'non authorized',
+      });
     }
     console.log(jwtDecoded);
     req.userToken = jwtDecoded;
