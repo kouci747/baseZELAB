@@ -1,19 +1,38 @@
-import React from 'react';
-import styles from './index.module.scss';
-import imgCard from '../../../public/houseImage.jpg';
+import { useContext } from "react";
+import styles from "./index.module.scss";
+import HearthIcon from "../../../public/heart-light.svg";
+import WishlistContext from "../../context/WishlistContext";
 
-const index = (title, imgCard, body) => {
+const Index = ({ place }) => {
+
+  const { addPlaceWishlist } = useContext(WishlistContext);
+
   return (
-    <div className={styles.card_container} title="card_title">
-      <div className={styles.image_container}>
-        <img src={imgCard.src} alt="" />
+    <div className={styles.wrapper}>
+      <div className={styles.thumbnail__wrapper}>
+        <button
+          className={styles.btn__whishlist}
+          onClick={
+            () => {
+              addPlaceWishlist(place);
+            }
+          }
+        >
+          <img src={HearthIcon.src} alt="favoris" />
+        </button>
+        <img src={place.image} alt={place.title} />
       </div>
-
-      <div className="card_body">
-        <p></p>
+      <div className={styles.content}>
+        <div className={styles.metadata}>
+          <p>{place.title}</p>
+          <p><b>{place.price}</b> € / nuit</p>
+        </div>
+        <div className={styles.rate}>
+          <span>{place.rate}</span>
+        </div>
       </div>
     </div>
   );
-};
+}
 
-export default index;
+export default Index;

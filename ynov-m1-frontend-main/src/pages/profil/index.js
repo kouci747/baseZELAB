@@ -5,6 +5,7 @@ import styles from "./index.module.scss";
 import Button from "../../components/Button";
 import Modal from "../../components/Modal";
 import Input from "../../components/Input";
+import WithAuth from '../../HOC/WithAuth';
 
 const Index = () => {
 
@@ -116,4 +117,4 @@ const Index = () => {
   );
 }
 
-export default Index;
+export default WithAuth(Index);

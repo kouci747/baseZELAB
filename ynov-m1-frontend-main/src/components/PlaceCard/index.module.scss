@@ -1,10 +1,44 @@
-.card_container {
-  width: 200px;
-  overflow: hidden;
-  box-shadow: 0px 0px 15px -5px;
-}
-
-.image_container img {
-  overflow: hidden;
-  height: 200px;
+.wrapper {
+    width: 200px;
+    .thumbnail__wrapper {
+        background: lightgray;
+        height: 150px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        position: relative;
+        img {
+            width: 100%;
+        }
+        .btn__whishlist {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            background: none;
+            border: none;
+            img {
+                width: 15px;
+            }
+        }
+    }
+    .content {
+        display: flex;
+        .metadata {
+            width: 70%;
+            b {
+                font-weight: 600;
+            }
+            p {
+                font-size: 12px;
+                margin-bottom: 10px;
+                font-weight: 300;
+            }
+        }
+        .rate {
+            width: 25%;
+            text-align: right;
+            span {
+                font-size: 11px;
+            }
+        }
+    }
 }

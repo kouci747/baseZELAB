@@ -1,14 +1,21 @@
-import React from 'react';
+import {useContext} from 'react';
+import WishlistContext from '../../context/WishlistContext';
 import Link from "next/link";
 import styles from "./index.module.scss";
-import Logo from "../../../public/netflix.png";
+import Logo from "../../../public/logo.jpg";
 
 const Index = () => {
+
+  const { wishlist } = useContext(WishlistContext);
+
+  console.log(wishlist);
 
   return (
     <header className={styles.header__main}>
       <div className={styles.header__logo}>
-        <img src={Logo.src} alt="Netflix" />
+        <Link href="/">
+          <img src={Logo.src} alt="Airbnb" />
+        </Link>
       </div>
       <div className={styles.header__menu}>
         <ul className={styles.nav__list}>
@@ -20,6 +27,21 @@ const Index = () => {
           <li className={styles.nav__item}>
             <Link href="/register">
               Register
+            </Link>
+          </li>
+          <li className={styles.nav__item}>
+            <Link href="/login">
+              Login
+            </Link>
+          </li>
+          <li className={styles.nav__item}>
+            <Link href="/profil">
+              Profil
+            </Link>
+          </li>
+          <li className={styles.nav__item}>
+            <Link href="/wishlist">
+              Favoris {wishlist.length}
             </Link>
           </li>
         </ul>

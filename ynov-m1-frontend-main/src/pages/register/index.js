@@ -74,7 +74,7 @@ const Index = () => {
             submitForm(e);
           }}
           type="submit"
-          btnClass="btn btn__primary"
+          btnClass="btn__primary"
         />
       </form>
     </div>

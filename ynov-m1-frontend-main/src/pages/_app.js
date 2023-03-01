@@ -1,6 +1,7 @@
 import '../styles/styles.scss';
 import MainLayout from '../layouts/MainLayout';
 import AdminLayout from '../layouts/AdminLayout';
+import {WishlistContextProvider} from '../context/WishlistContext';
 import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }) {
@@ -12,12 +13,14 @@ function MyApp({ Component, pageProps }) {
         <AdminLayout>
           <Component {...pageProps} />
         </AdminLayout>
-      ): (
-        <MainLayout>
-          <Component {...pageProps} />
-        </MainLayout>          
+        ) : (
+        <WishlistContextProvider>
+          <MainLayout>
+            <Component {...pageProps} />
+          </MainLayout>          
+        </WishlistContextProvider>
       )
-      }
+        }
     </>
   )
 }
