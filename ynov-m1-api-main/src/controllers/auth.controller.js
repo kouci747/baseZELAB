@@ -1,42 +1,39 @@
-const User = require('../models/user.model.js');
+const user = require('../models/user.model');
 const bcrypt = require('bcrypt');
+var jwt = require('jsonwebtoken');
 const { signJwt } = require('../helpers/signJwt.js');
 
-exports.register = (req, res) => {
+exports.register = (req, res, next) => {
+  //cryptmdp
   const hashedPassword = bcrypt.hashSync(req.body.password, 10);
 
-  const newUser = new User({
+  const newUser = new user({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
     password: hashedPassword,
-    typeUser: req.body.typeUser,
   });
+
   newUser
     .save()
     .then((user) => {
-      const userToken = signJwt(
-        {
-          id: user._id,
-          isAdmin: user.isAdmin,
-          isOwner: user.isOwner,
-          typeUser: user.typeUser,
-        },
+      //token
+      const userToken = jwt.sign(
+        { id: user.id, isAdmin: user.isAdmin },
         process.env.JWT_SECRET
       );
-
-      res.send({
-        token: userToken,
-      });
+      res.send({ token: userToken, user: user, isAdmin: user.isAdmin });
+      //return res.send(token);
     })
     .catch((err) => {
-      res.status(404).send(err);
+      next(err);
     });
 };
-
 exports.login = (req, res) => {
-  User.findOne({ email: req.body.email })
+  user
+    .findOne({ email: req.body.email })
     .then((user) => {
+      // console.log(user)
       if (!user) {
         return res.status(404).send({
           message: 'User not found',
@@ -65,6 +62,8 @@ exports.login = (req, res) => {
         auth: true,
         message: 'User logged',
         token: userToken,
+        user: user,
+        isAdmin: user.isAdmin,
       });
     })
     .catch((err) => {

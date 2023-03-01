@@ -96,3 +96,16 @@ exports.removeRole = async (req, res) => {
 //     return res.status(500).json({ error: 'Failed to add role' });
 //   }
 // };
+
+exports.GetAuthUser = (req, res) => {
+  // User.findById(req.params.id)
+  // console.log(req.userId)
+  user
+    .findById(req.userToken.id)
+    .then((users) => {
+      res.send(users);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
+};
